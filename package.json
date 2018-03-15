@@ -1,10 +1,17 @@
 {
-  "name": "url-polyfill",
+  "name": "url-ponyfill",
+  "description": "UMD & [ponyfill](ponyfill.com) fork of [webcomponents/URL](github.com/webcomponents/url)",
   "version": "0.5.7",
   "main": "url.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/webcomponents/URL.git"
+    "url": "git+https://github.com/JCCR/url-ponyfill.git"
   },
-  "license": "SAX-PD"
+  "license": "SAX-PD",
+  "devDependencies": {
+    "rollup": "^0.56.5"
+  },
+  "scripts": {
+    "build": "rollup url.js --o url.umd.js -f umd --name urlPonyfill"
+  }
 }

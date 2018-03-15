@@ -1,3 +1,9 @@
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.urlPonyfill = {})));
+}(this, (function (exports) { 'use strict';
+
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
@@ -29,7 +35,7 @@ function URLjsImpl() {
 
   function IDNAToASCII(h) {
     if ('' == h) {
-      invalid.call(this)
+      invalid.call(this);
     }
     // XXX
     return h.toLowerCase()
@@ -67,16 +73,12 @@ function URLjsImpl() {
       ALPHANUMERIC = /[a-zA-Z0-9\+\-\.]/;
 
   function parse(input, stateOverride, base) {
-    function err(message) {
-      errors.push(message)
-    }
 
     var state = stateOverride || 'scheme start',
         cursor = 0,
         buffer = '',
         seenAt = false,
-        seenBracket = false,
-        errors = [];
+        seenBracket = false;
 
     loop: while ((input[cursor - 1] != EOF || cursor == 0) && !this._isInvalid) {
       var c = input[cursor];
@@ -90,7 +92,6 @@ function URLjsImpl() {
             state = 'no scheme';
             continue;
           } else {
-            err('Invalid scheme.');
             break loop;
           }
           break;
@@ -124,14 +125,13 @@ function URLjsImpl() {
           } else if (EOF == c) {
             break loop;
           } else {
-            err('Code point not allowed in scheme: ' + c)
             break loop;
           }
           break;
 
         case 'scheme data':
           if ('?' == c) {
-            this._query = '?';
+            query = '?';
             state = 'query';
           } else if ('#' == c) {
             this._fragment = '#';
@@ -146,7 +146,6 @@ function URLjsImpl() {
 
         case 'no scheme':
           if (!base || !(isRelativeScheme(base._scheme))) {
-            err('Missing scheme.');
             invalid.call(this);
           } else {
             state = 'relative';
@@ -158,7 +157,6 @@ function URLjsImpl() {
           if ('/' == c && '/' == input[cursor+1]) {
             state = 'authority ignore slashes';
           } else {
-            err('Expected /, got: ' + c);
             state = 'relative';
             continue
           }
@@ -177,8 +175,6 @@ function URLjsImpl() {
             this._password = base._password;
             break loop;
           } else if ('/' == c || '\\' == c) {
-            if ('\\' == c)
-              err('\\ is an invalid code point.');
             state = 'relative slash';
           } else if ('?' == c) {
             this._host = base._host;
@@ -198,8 +194,8 @@ function URLjsImpl() {
             this._password = base._password;
             state = 'fragment';
           } else {
-            var nextC = input[cursor+1]
-            var nextNextC = input[cursor+2]
+            var nextC = input[cursor+1];
+            var nextNextC = input[cursor+2];
             if (
               'file' != this._scheme || !ALPHA.test(c) ||
               (nextC != ':' && nextC != '|') ||
@@ -218,9 +214,6 @@ function URLjsImpl() {
 
         case 'relative slash':
           if ('/' == c || '\\' == c) {
-            if ('\\' == c) {
-              err('\\ is an invalid code point.');
-            }
             if ('file' == this._scheme) {
               state = 'file host';
             } else {
@@ -242,7 +235,6 @@ function URLjsImpl() {
           if ('/' == c) {
             state = 'authority second slash';
           } else {
-            err("Expected '/', got: " + c);
             state = 'authority ignore slashes';
             continue;
           }
@@ -251,7 +243,6 @@ function URLjsImpl() {
         case 'authority second slash':
           state = 'authority ignore slashes';
           if ('/' != c) {
-            err("Expected '/', got: " + c);
             continue;
           }
           break;
@@ -261,21 +252,18 @@ function URLjsImpl() {
             state = 'authority';
             continue;
           } else {
-            err('Expected authority, got: ' + c);
           }
           break;
 
         case 'authority':
           if ('@' == c) {
             if (seenAt) {
-              err('@ already seen.');
               buffer += '%40';
             }
             seenAt = true;
             for (var i = 0; i < buffer.length; i++) {
               var cp = buffer[i];
               if ('\t' == cp || '\n' == cp || '\r' == cp) {
-                err('Invalid whitespace in authority.');
                 continue;
               }
               // XXX check URL code points
@@ -310,7 +298,6 @@ function URLjsImpl() {
             }
             continue;
           } else if ('\t' == c || '\n' == c || '\r' == c) {
-            err('Invalid whitespace in file host.');
           } else {
             buffer += c;
           }
@@ -342,7 +329,6 @@ function URLjsImpl() {
             }
             buffer += c;
           } else {
-            err('Invalid code point in host/hostname: ' + c);
           }
           break;
 
@@ -363,15 +349,12 @@ function URLjsImpl() {
             state = 'relative path start';
             continue;
           } else if ('\t' == c || '\n' == c || '\r' == c) {
-            err('Invalid code point in port: ' + c);
           } else {
             invalid.call(this);
           }
           break;
 
         case 'relative path start':
-          if ('\\' == c)
-            err("'\\' not allowed in path.");
           state = 'relative path';
           if ('/' != c && '\\' != c) {
             continue;
@@ -380,9 +363,6 @@ function URLjsImpl() {
 
         case 'relative path':
           if (EOF == c || '/' == c || '\\' == c || (!stateOverride && ('?' == c || '#' == c))) {
-            if ('\\' == c) {
-              err('\\ not allowed in relative path.');
-            }
             var tmp;
             if (tmp = relativePathDotMapping[buffer.toLowerCase()]) {
               buffer = tmp;
@@ -453,9 +433,9 @@ function URLjsImpl() {
     if (base !== undefined && !(base instanceof jURL))
       base = new jURL(String(base));
 
-    url = String(url)
+    url = String(url);
 
-    this._url = url
+    this._url = url;
     clear.call(this);
 
     var input = url.replace(/^[ \t\r\n\f]+|[ \t\r\n\f]+$/g, '');
@@ -602,13 +582,13 @@ function URLjsImpl() {
   return jURL;
 }
 
-export const URL = URLjsImpl();
+const URL = URLjsImpl();
 
 /**
- * Helper to feature detect a working native URL implementation
+ * Helper to detect a working native URL implementation
  * @return {bool}
  */
-export function hasNativeURL() {
+function hasWorkingURL() {
   var hasWorkingUrl = false;
 
   try {
@@ -619,3 +599,10 @@ export function hasNativeURL() {
 
   return hasWorkingUrl;
 }
+
+exports.URL = URL;
+exports.hasWorkingURL = hasWorkingURL;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

@@ -1,8 +1,29 @@
-# URL
-URL parser in JavaScript
+# URL-ponyfill
 
-This is a fork of [annevk/url](https://github.com/annevk/url). The code has been converted to pragmatic JS with a
-huge performance improvement as a side effect.
+UMD & [ponyfill](ponyfill.com) fork of [webcomponents/URL](github.com/webcomponents/url)
+
+# Usage
+
+ES2015 (webpack, rollup, etc)
+```
+import { URL } from 'url-ponyfill'
+```
+
+Node.js
+```
+const { URL } = require('url-ponyfill')
+```
+
+
+## Polyfill
+
+```
+import { URL, hasNativeURL } from 'url-ponyfill';
+
+if (!hasNativeURL) {
+    self.URL = URL;
+}
+```
 
 # License
 
