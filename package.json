@@ -4,6 +4,7 @@
   "version": "0.5.7",
   "main": "url.umd.js",
   "module": "url.js",
+  "types": "url.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JCCR/url-ponyfill.git"
