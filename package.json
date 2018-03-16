@@ -2,7 +2,8 @@
   "name": "url-ponyfill",
   "description": "UMD & [ponyfill](ponyfill.com) fork of [webcomponents/URL](github.com/webcomponents/url)",
   "version": "0.5.7",
-  "main": "url.js",
+  "main": "url.umd.js",
+  "module": "url.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JCCR/url-ponyfill.git"
