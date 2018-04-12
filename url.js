@@ -612,7 +612,7 @@ export function hasNativeURL() {
   var hasWorkingUrl = false;
 
   try {
-    var u = new URL('b', 'http://a');
+    var u = new self.URL('b', 'http://a');
     u.pathname = 'c%20d';
     hasWorkingUrl = u.href === 'http://a/c%20d';
   } catch(e) {}

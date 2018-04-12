@@ -131,7 +131,7 @@ function URLjsImpl() {
 
         case 'scheme data':
           if ('?' == c) {
-            query = '?';
+            this._query = '?';
             state = 'query';
           } else if ('#' == c) {
             this._fragment = '#';
@@ -585,14 +585,14 @@ function URLjsImpl() {
 const URL = URLjsImpl();
 
 /**
- * Helper to detect a working native URL implementation
+ * Helper to feature detect a working native URL implementation
  * @return {bool}
  */
-function hasWorkingURL() {
+function hasNativeURL() {
   var hasWorkingUrl = false;
 
   try {
-    var u = new URL('b', 'http://a');
+    var u = new self.URL('b', 'http://a');
     u.pathname = 'c%20d';
     hasWorkingUrl = u.href === 'http://a/c%20d';
   } catch(e) {}
@@ -601,7 +601,7 @@ function hasWorkingURL() {
 }
 
 exports.URL = URL;
-exports.hasWorkingURL = hasWorkingURL;
+exports.hasNativeURL = hasNativeURL;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
