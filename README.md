@@ -27,4 +27,4 @@ if (!hasNativeURL) {
 
 # License
 
-This is public domain.
+MIT
