@@ -1,6 +1,6 @@
 # URL-ponyfill
 
-UMD & [ponyfill](ponyfill.com) fork of [webcomponents/URL](github.com/webcomponents/url)
+UMD & [ponyfill](https://ponyfill.com) fork of [webcomponents/URL](https://github.com/webcomponents/polyfills/tree/master/packages/url)
 
 # Usage
 
