@@ -27,4 +27,4 @@ if (!hasNativeURL) {
 
 # License
 
-MIT
+[MIT](./LICENSE)
