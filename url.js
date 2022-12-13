@@ -1,7 +1,9 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function URLjsImpl() {
+const defaultGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : undefined
+
+export function URLjsImpl(global = defaultGlobal) {
 
   var relative = Object.create(null);
   relative['ftp'] = 21;
@@ -587,7 +589,7 @@ function URLjsImpl() {
   };
 
   // Copy over the static methods
-  var OriginalURL = self.URL;
+  var OriginalURL = global.URL;
   if (OriginalURL) {
     jURL.createObjectURL = function(blob) {
       // IE extension allows a second optional options argument.
@@ -608,11 +610,11 @@ export const URL = URLjsImpl();
  * Helper to feature detect a working native URL implementation
  * @return {bool}
  */
-export function hasNativeURL() {
+export function hasNativeURL(global = defaultGlobal) {
   var hasWorkingUrl = false;
 
   try {
-    var u = new self.URL('b', 'http://a');
+    var u = new global.URL('b', 'http://a');
     u.pathname = 'c%20d';
     hasWorkingUrl = u.href === 'http://a/c%20d';
   } catch(e) {}
