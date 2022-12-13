@@ -1,5 +1,5 @@
 {
-  "name": "url-ponyfill",
+  "name": "@agriffis/url-ponyfill",
   "description": "UMD & [ponyfill](ponyfill.com) fork of [webcomponents/URL](github.com/webcomponents/url)",
   "version": "0.5.10",
   "main": "url.umd.js",
@@ -7,7 +7,7 @@
   "types": "url.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jccr/url-ponyfill.git"
+    "url": "git+https://github.com/agriffis/url-ponyfill.git"
   },
   "license": "MIT",
   "devDependencies": {
